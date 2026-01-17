@@ -5,9 +5,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ContactController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [BranchController::class, 'home']);
 
 Route::post('/cdn-cgi/rum/${id}',function (){
     
@@ -23,9 +21,7 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 
 // branches
-Route::get('/branches', function ()  {
-    return view('branches');
-});
+Route::get('/branches', [BranchController::class, 'index']);
 
 Route::get('/branches/{name}', [BranchController::class, 'show'])->name('branches.show');
 

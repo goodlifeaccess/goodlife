@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function show($name) {
-
-        $branches = [
+    /**
+     * Get all branches
+     */
+    private function getBranches()
+    {
+        return [
             [
                 'name' => 'Head Office',
                 'address' => 'Sonatube, Kicukiro',
@@ -104,7 +107,7 @@ class BranchController extends Controller
                 'phone' => '+250 788 688 505 (Pharmacy)',
                 'email' => 'medplusnyamirambo@goodlife.rw',
                 'map' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31899.718935018274!2d30.058149338712937!3d-1.968045922902061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca5294db60a7b%3A0x65602a21a47f6d75!2sGoodLife%20Health%20%26%20Beauty%20-%20MedPlus%20Nyamirambo!5e0!3m2!1sen!2srw!4v1718315625963!5m2!1sen!2srw',
-                'image' => 'Nyamirambo.jpg'
+                'image' => 'Nyamirambo.jpeg'
             ],
             [
                 'name' => 'Gisozi',
@@ -112,7 +115,7 @@ class BranchController extends Controller
                 'phone' => '+250 787 475 154 (Pharmacy)',
                 'email' => 'medplusgisozi@goodlife.rw',
                 'map' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31900.48980656872!2d30.018286774316397!3d-1.92733149999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca53e2011ddeb%3A0xdf431fc27fd1a966!2sGoodLife%20Health%20%26%20Beauty%20-%20MedPlus%20Gisozi!5e0!3m2!1sen!2srw!4v1718315680443!5m2!1sen!2srw',
-                'image' => 'Gisozi.jpg'
+                'image' => 'Gisozi.jpeg'
             ],
             [
                 'name' => 'Kanombe',
@@ -120,7 +123,7 @@ class BranchController extends Controller
                 'phone' => '+250 787 070 694 (Pharmacy)',
                 'email' => 'kanombepharma@goodlife.rw',
                 'map' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.444399591217!2d30.166287374725897!3d-1.9765859980055331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19db59f28da2aafb%3A0xb50ef22fff7d2ce2!2sGoodlife%20Health%20%26%20Beauty%20-%20Kanombe%20branch!5e0!3m2!1sen!2srw!4v1718315722599!5m2!1sen!2srw',
-                'image' => 'Kanombe.jpg'
+                'image' => 'Kanombe.jpeg'
             ],
             [
                 'name' => 'Nyabugogo Pharmacy',
@@ -144,10 +147,26 @@ class BranchController extends Controller
                 'phone' => '+250786677241',
                 'email' => 'info@goodlife.rw',
                 'map' => 'https://www.google.com/maps?sca_esv=b3bdd2799adcbf4d&rlz=1CDGOYI_enRW1063RW1063&hl=en-US&output=search&q=google+map+link+of+legacy+clinics&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZMLQ4RPdPjLPmOakFCN7X8CAEObRY5nUC_4-eAKPRM9eMDLjKEazBDjZDj46kXQemETLeen53kF_GRn6RqI43d2TmcAeYqzES_DglVaCrNyH_5wQ_jpuxO7xvPWbabZ-kyTpsSayyxEStSAbuYni26bOMp3KYHHGcSS6zKroTdmwFsV7dceWvihpn_r99JfJ_UL_kyA&entry=mc&ved=1t:200715&ictx=111',
-                'image' => 'isano_pharm.jpg'
+                'image' => 'Goodlife15.jpeg'
             ]
         ];
+    }
 
+    /**
+     * Display listing of all branches
+     */
+    public function index()
+    {
+        $branches = $this->getBranches();
+        return view('branches', compact('branches'));
+    }
+
+    /**
+     * Display a single branch
+     */
+    public function show($name)
+    {
+        $branches = $this->getBranches();
         $branch = collect($branches)->firstWhere('name', $name);
 
         if (!$branch) {
@@ -155,6 +174,14 @@ class BranchController extends Controller
         }
 
         return view('branch_overview', compact('branch'));
-        
+    }
+
+    /**
+     * Get branches for homepage
+     */
+    public function home()
+    {
+        $branches = $this->getBranches();
+        return view('welcome', compact('branches'));
     }
 }
